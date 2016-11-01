@@ -1,0 +1,33 @@
+<!DOCTYPE html>                                                                                                                                                                                                            
+<html>                                                                                                                                                        
+<head>
+  <title>IoT Video Projector</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+  <body>
+    <div class="box" method="post" action="" enctype="multipart/form-data">
+      <canvas id="the-canvas">
+      </canvas>
+
+      <div class="box__input">
+        <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
+        <label for="file"><strong>Choose a PDF file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+        <span class="box__dropit"><br />Great! Now drop it :)</span>
+      </div>
+    </div>
+
+    
+
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/lib/adapter.js"></script>
+    <script src="js/dragdrop.js"></script>
+    <script src="js/pdf.js"></script>
+    <script>
+      PDFJS.workerSrc = 'js/pdf.worker.js';
+    </script>
+   <!-- <script src="js/main.js"></script> -->
+
+  </body>
+</html>   
