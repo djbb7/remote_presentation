@@ -18,6 +18,10 @@ html
 					display:none;
 				}
 
+				#the-canvas {
+					padding: 10px;
+				}
+
 				.box
 				{
 					font-size: 1.25rem; /* 20 */
@@ -26,7 +30,6 @@ html
 					height: 100%;
 					width: 100%;
 					text-align: center;
-					padding: 10px;
 				}
 				.box.has-advanced-upload
 				{
