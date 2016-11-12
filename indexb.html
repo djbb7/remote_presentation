@@ -1,33 +1,25 @@
 <!DOCTYPE html>                                                                                                                                                                                                            
-<html>                                                                                                                                                                                                                     <head>
-  <title>Realtime communication with WebRTC</title>
-  <link rel="stylesheet" href="/css/main.css" />
+<html>
+<head>
+  <title>Beamer</title>
+  <link rel="stylesheet" href="css/beamer.css" />
 </head>
 
   <body>
-    <h1>Realtime communication with WebRTC</h1>
-    <h2>
-      <span>Room URL: </span><span id="url">...</span>
-    </h2>
-    <div id="videoCanvas">
-      <video id="camera" autoplay></video>
-      <canvas id="photo"></canvas>
-    </div>
-    <div id="buttons">
-      <input type="file" id="choose" value="choose photo"/>
-      <button id="snap">Snap</button><span> then </span><button id="send">Send</button>
+    <h1>Video Projector</h1>
+    <h3 id="url"></h3>                                                    
 
-      <span> or </span>
-      <button id="snapAndSend">Snap &amp; Send</button>
-    </div>                                                                                                                                                                                                                   
+    <div class="box">
+      <canvas id="the-canvas">
+      </canvas>
 
-    <div id="incoming">                                                                                                                                                                                                      
-      <h2>Incoming photos</h2>
-      <div id="trail"></div>    
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/lib/adapter.js"></script>
-    <script src="js/main.js"></script>
-
+    <script src="js/beamer.js"></script>
+    <script src="js/pdf.js"></script>
+    <script>
+      PDFJS.workerSrc = 'js/pdf.worker.js';
+    </script>
   </body>
 </html>   

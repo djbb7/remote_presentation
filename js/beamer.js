@@ -13,19 +13,14 @@
 
 var configuration = null;
 
-// var roomURL = document.getElementById('url');
-
-var form = document.getElementById( 'dropit' );
-
-// Attach event handlers
-form.addEventListener("drop", sendPDF, false);
+var roomURL = document.getElementById('url');
 
 // Create a random room if not already present in the URL.
 var isInitiator;
 var room = window.location.hash.substring(1);
 if (!room) {
-  console.log("Error. No room specified");
   room = window.location.hash = randomToken();
+  roomURL.innerHTML = room;
 }
 
 
@@ -88,7 +83,6 @@ function sendMessage(message) {
   console.log('Client sending message: ', message);
   socket.emit('message', message);
 }
-
 
 /****************************************************************************
 * WebRTC peer connection and data channel
@@ -169,62 +163,111 @@ function onDataChannelCreated(channel) {
   channel.onopen = function() {
     console.log('CHANNEL opened!!!');
   };
+
+  channel.onmessage = (adapter.browserDetails.browser === 'firefox') ?
+  receiveDataFirefoxFactory() : receiveDataChromeFactory();
+}
+
+var pdfData;
+function receiveDataChromeFactory() {
+  var buf, count;
+  var first = true;
+  var len;
+  var chunk = 1;
+  return function onmessage(event) {
+    if (first) {
+      len = parseInt(event.data);
+      buf = window.buf = new Array();
+      count = 0;
+      console.log('Expecting a total of ' + buf.byteLength + ' bytes');
+      first = false;
+      return;
+    }
+
+    console.log('receiving chunk #'+chunk);
+    chunk += 1;
+
+    buf.push(event.data);
+
+    count += event.data.length;
+    console.log('count: ' + count);
+
+    if (count === len) {
+      // we're done: all data chunks have been received
+      pdfData = atob(buf.join(''));
+      console.log('Done. Received PDF.');
+
+      showPDF();
+    }
+  };
+}
+//TODO: update
+function receiveDataFirefoxFactory() {
+  var count, total, parts;
+
+  return function onmessage(event) {
+    if (typeof event.data === 'string') {
+      total = parseInt(event.data);
+      parts = [];
+      count = 0;
+      console.log('Expecting a total of ' + total + ' bytes');
+      return;
+    }
+
+    parts.push(event.data);
+    count += event.data.size;
+    console.log('Got ' + event.data.size + ' byte(s), ' + (total - count) +
+                ' to go.');
+
+    if (count === total) {
+      console.log('Assembling payload');
+      var buf = new Uint8ClampedArray(total);
+      var compose = function(i, pos) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          buf.set(new Uint8ClampedArray(this.result), pos);
+          if (i + 1 === parts.length) {
+            console.log('Done. Rendering photo.');
+            renderPhoto(buf);
+          } else {
+            compose(i + 1, pos + this.result.byteLength);
+          }
+        };
+        reader.readAsArrayBuffer(parts[i]);
+      };
+      compose(0, 0);
+    }
+  };
+}
+
+function showPDF(){
+  // Opening PDF by passing its binary data as a string. It is still preferable
+  // to use Uint8Array, but string or array-like structure will work too.
+  PDFJS.getDocument({data: pdfData}).then(function getPdfHelloWorld(pdf) {
+    // Fetch the first page.
+    pdf.getPage(1).then(function getPageHelloWorld(page) {
+      var scale = 1.5;
+      var viewport = page.getViewport(scale);
+
+      // Prepare canvas using PDF page dimensions.
+      var canvas = document.getElementById('the-canvas');
+      var context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      // Render PDF page into canvas context.
+      var renderContext = {
+        canvasContext: context,
+        viewport: viewport
+      };
+      page.render(renderContext);
+    });
+  });
 }
 
 /****************************************************************************
 * Aux functions, mostly UI-related
 ****************************************************************************/
-
-function sendPDF(e) {
-  var file = e.dataTransfer.files[0];
-
-  console.log("sending file... ");
-
-  // Split data channel message in chunks of this byte length.
-  var CHUNK_LEN = 64000;  
-  
-  var mReader = new window.FileReader();
-
-  mReader.onload = function(event){
-
-    var allData = event.target.result;
-    var allData = allData.match(/,(.*)$/)[1];
-    
-    var data; //chunk to transmit
-
-    console.log('Sending a total of ' + allData.length + ' byte(s)');
-
-    dataChannel.send(allData.length);
-
-    for(var i=0; i<allData.length*1.0/CHUNK_LEN; i++){
-        console.log('Sending chunk #'+(i+1));
-        data = allData.slice(i*CHUNK_LEN, (i+1)*CHUNK_LEN);
-
-        dataChannel.send(data);
-    }
-  };
-
-  mReader.readAsDataURL(file);
-
- /* var len = file.size,
-  n = len / CHUNK_LEN | 0;
-  */
-  
-  /*
-  // split the photo and send in chunks of about 64KB
-  for (var i = 0; i < n; i++) {
-    var start = i * CHUNK_LEN,
-    end = (i + 1) * CHUNK_LEN;
-    console.log(start + ' - ' + (end - 1));
-    dataChannel.send(img.data.subarray(start, end));
-  }
-  
-  // send the reminder, if any
-  if (len % CHUNK_LEN) {
-    console.log('last ' + len % CHUNK_LEN + ' byte(s)');
-    dataChannel.send(img.data.subarray(n * CHUNK_LEN));
-  }*/
-}
 
 
 function randomToken() {
