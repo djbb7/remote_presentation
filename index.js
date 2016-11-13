@@ -39,13 +39,22 @@ io.sockets.on('connection', function( socket ) {
 	socket.on( 'create', function( room ) {
 		console.log( 'Received request to create room ' + room );
 
-		socket.join( room );
-		socket.emit( 'created', room, socket.id );
+		socket.join( room , function() {
+			socket.emit( 'created', room, socket.id );
+		} );
 
 	});
 
 	socket.on('join', function(room) {
 		console.log( 'Received request to join room ' + room );
+
+		var roomExists = io.sockets.adapter.rooms[room] != undefined;
+
+		if( !roomExists ){
+			console.log('attempted to join empty room.');
+			socket.emit( 'perror', { code: 404, msg: "Room does not exist." } );
+			return;
+		}
 
 		var numClients = io.sockets.sockets.length;
 
@@ -53,12 +62,9 @@ io.sockets.on('connection', function( socket ) {
 
 		log('Client ID ' + socket.id + ' joined room ' + room);
 
-			// io.sockets.in(room).emit('join', room);
-			socket.join(room);
-			socket.emit('joined', room, socket.id);
-			io.sockets.in(room).emit('ready', room);
-			socket.broadcast.emit('ready', room);
-		//	socket.emit('full', room);
+		socket.join(room);
+		socket.emit('joined', room, socket.id);
+		socket.to( room ).emit('ready', room );
 
 	});
 

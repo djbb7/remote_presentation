@@ -191,6 +191,10 @@ var webRTCModule = function( io ) {
 			signalingMessageCallback( message );
 		});
 
+		socket.on( 'perror', function( e ) {
+			console.log(e.msg);
+		});
+
 		// Join a room
 		socket.emit( 'join' , room );
 
