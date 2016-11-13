@@ -25,7 +25,7 @@ var webRTCModule = function( io , pubsub ) {
 
 	function sendMessage(message) {
 		console.log('Client sending message: ', message);
-		socket.emit('message', message);
+		socket.emit('message', {msg: message, room: room});
 	}
 
 

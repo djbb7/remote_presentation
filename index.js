@@ -32,8 +32,11 @@ io.sockets.on('connection', function( socket ) {
 
 	socket.on('message', function( message ) {
 		log('Client said: ', message);
+		console.log(message);
 		// for a real app, would be room-only (not broadcast)
-		socket.broadcast.emit('message', message);
+		socket.broadcast.emit('message', message.msg);
+		//TODO: send to room only
+		// socket.to( message.room ).emit( 'message', message.msg );
 	});
 
 	socket.on( 'create', function( room ) {
