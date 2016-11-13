@@ -16,18 +16,18 @@
         <span class="box__dropit"><br />Great! Now drop it :)</span>
       </div>
     </div>
-
-    
-
     
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/lib/adapter.js"></script>
-    <script src="js/dragdrop.js"></script>
-    <script src="js/pdf.js"></script>
+    <script src="js/lib/pdf.js"></script>
     <script>
-      PDFJS.workerSrc = 'js/pdf.worker.js';
+      PDFJS.workerSrc = 'js/lib/pdf.worker.js';
     </script>
-   <script src="js/main.js"></script>
+    <script src="js/pubsub.js"></script>
+    <script src="js/presenter/webrtc.js"></script>
+    <script src="js/presenter/dragdrop.js"></script>
+    <script src="js/presenter/pdf.js"></script> 
+    <script src="js/presenter/main.js"></script>
 
   </body>
 </html>   

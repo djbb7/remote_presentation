@@ -1,4 +1,5 @@
-<!DOCTYPE html>                                                                                                                                                                                                            
+<!DOCTYPE html>
+
 <html>
 <head>
   <title>Beamer</title>
@@ -7,7 +8,7 @@
 
   <body>
     <h1>Video Projector</h1>
-    <h3 id="url"></h3>                                                    
+    <h3 id="url"></h3>
 
     <div class="box">
       <canvas id="the-canvas">
@@ -16,10 +17,14 @@
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/lib/adapter.js"></script>
-    <script src="js/beamer.js"></script>
-    <script src="js/pdf.js"></script>
+    <script src="js/lib/pdf.js"></script>
     <script>
-      PDFJS.workerSrc = 'js/pdf.worker.js';
+      PDFJS.workerSrc = 'js/lib/pdf.worker.js';
     </script>
+    <script src="js/beamer/webrtc.js"></script>
+    <script src="js/beamer/pdf.js"></script>
+    <script src="js/pubsub.js"></script>
+    <script src="js/beamer/main.js"></script>
+
   </body>
 </html>   
