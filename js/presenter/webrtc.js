@@ -50,7 +50,8 @@ var webRTCModule = function( io ) {
 
 			var data; // chunk holder
 
-			dataChannel.send( allData.length ); // notify how much data to receive
+			dataChannel.send( JSON.stringify( { 'cmd': 'receiveFile', 'length': allData.length } ) );
+//			dataChannel.send( allData.length ); // notify how much data to receive
 
 			for(var i=0; i < allData.length*1.0/CHUNK_LEN; i++){
 

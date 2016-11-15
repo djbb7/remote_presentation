@@ -110,11 +110,13 @@ var webRTCModule = function( io , pubsub ) {
 
 		return function onmessage(event) {
 			if (first) {
-				total = parseInt(event.data);
+				var jsonData = JSON.parse( event.data );
+				total = jsonData.length;
+
 				buf = window.buf = new Array();
 				count = 0;
 				first = false;
-				console.log('Expecting a total of ' + buf.byteLength + ' bytes');
+				console.log('Expecting a total of ' + total + ' bytes');
 				return;
 			}
 
