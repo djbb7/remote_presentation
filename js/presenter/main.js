@@ -36,9 +36,11 @@ pubsub.subscribe('pageChange', function( topic, direction ) {
 	switch( direction ){
 		case 'next':
 			pdfModule.nextPage();
+			webRTCModule.notifyNextPage();
 		break;
 		case 'prev':
 			pdfModule.prevPage();
+			webRTCModule.notifyPrevPage();
 		break;
 	}
 } );

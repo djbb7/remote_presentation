@@ -106,34 +106,43 @@ var webRTCModule = function( io , pubsub ) {
 	}
 
 	function receiveDataFactory() {
-		var buf, count, total, first = true, chunk = 1;
+		var buf, count, total, direction, first = true, chunk = 1;
 
 		return function onmessage(event) {
+			
 			if (first) {
 				var jsonData = JSON.parse( event.data );
-				total = jsonData.length;
+				console.log( 'Received instruction: '+jsonData.cmd );
+				switch( jsonData.cmd ) {
+					case 'receiveFile':
+						total = jsonData.length;
+						buf = window.buf = new Array();
+						count = 0;
+						first = false;
+						break;
+					case 'moveSlide':
+						direction = jsonData.direction;
+						console.log( direction );
+						pubsub.publish( 'pageChange', direction );
+						break;
+				}
 
-				buf = window.buf = new Array();
-				count = 0;
-				first = false;
-				console.log('Expecting a total of ' + total + ' bytes');
 				return;
 			}
 
-			console.log('receiving chunk #'+chunk);
 			chunk += 1;
 
 			buf.push(event.data);
 
 			count += event.data.length;
-			console.log('count: ' + count);
 
 			if (count === total) {
 				// we're done: all data chunks have been received
 				pdfData = atob(buf.join(''));
-				console.log('Done. Received PDF.');
 
 				pubsub.publish('fileReceived', pdfData);
+
+				first = true;
 			}
 		};
 	}

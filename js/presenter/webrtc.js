@@ -66,6 +66,18 @@ var webRTCModule = function( io ) {
 
 	}
 
+	function notifyNextPage() {
+
+		dataChannel.send( JSON.stringify( { 'cmd': 'moveSlide', 'direction': 'next' } ) );
+
+	}
+
+	function notifyPrevPage() {
+
+		dataChannel.send( JSON.stringify( { 'cmd': 'moveSlide', 'direction': 'prev' } ) );
+
+	}
+
 	function signalingMessageCallback(message) {
 		if ( message.type === 'offer' ) {
 			console.log('Got offer. Sending answer to peer.');
@@ -207,6 +219,8 @@ var webRTCModule = function( io ) {
 	return {
 		createRoom: createRoom,
 		setRoom: setRoom,
-		sendPDF: sendPDF
+		sendPDF: sendPDF,
+		notifyNextPage: notifyNextPage,
+		notifyPrevPage: notifyPrevPage
 	}
 };
