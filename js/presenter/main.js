@@ -1,5 +1,8 @@
 'use strict';
 
+//////////////////////////////////////
+// UI elements
+/////////////////////
 
 var dropZone = document.getElementById( 'dropit' );
 
@@ -7,11 +10,19 @@ var canvas = document.getElementById('the-canvas');
 
 var pubsub = pubsubBuilder( {} );
 
+//////////////////////////////////////
+// Configure modules
+/////////////////////
+
 var dragAndDropModule = dragAndDropModule( document, window, pubsub, dropZone );
 
 var pdfModule = pdfModule( document, window, canvas );
 
-//var webRTCModule = webRTCModule( io );
+var webRTCModule = webRTCModule( io );
+
+//////////////////////////////////////
+// Subscribe to events
+/////////////////////
 
 pubsub.subscribe('fileSelected', function( topic, file ) {
 
@@ -32,6 +43,7 @@ pubsub.subscribe('pageChange', function( topic, direction ) {
 	}
 } );
 
+// listen for left and right keyboard arrows
 document.onkeydown = function(e) {
 		e = e || window.event;
 		if( e.which == 39 ) {
