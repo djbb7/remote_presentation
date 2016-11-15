@@ -47,6 +47,12 @@ var pdfModule = function( document, window, canvas ) {
 		
 		}
 
+		if( pageNumber > mPDF.numPages || pageNumber < 1 ) {
+
+			return false;
+
+		}
+
 		mPDF
 		.getPage( pageNumber )
 		.then( function( page ) {
@@ -63,6 +69,30 @@ var pdfModule = function( document, window, canvas ) {
 
 	}
 
+	function nextPage () {
+
+		if( !mPDF ){
+		
+			return undefined;
+		
+		}
+
+		showPage ( mPage.pageIndex + 2 ); // index is 0-based, but pdf pages start from 1
+
+	}
+
+	function prevPage () {
+
+		if( !mPDF ){
+		
+			return undefined;
+		
+		}
+
+		showPage ( mPage.pageIndex ); // no need to subtract since index is 0-based, but pdf page count is not
+
+	}
+
 	function showPDF( file , page ) {
 
 		var reader = new FileReader();
@@ -74,7 +104,9 @@ var pdfModule = function( document, window, canvas ) {
 				mPDF = pdf;
 
 				if( !page ) {
+
 					page = 1;
+
 				}
 
 				showPage( page );
@@ -89,7 +121,8 @@ var pdfModule = function( document, window, canvas ) {
 
 	return {
 		showPDF: showPDF,
-		showPage: showPage
+		nextPage: nextPage,
+		prevPage: prevPage
 	}
 
 };
