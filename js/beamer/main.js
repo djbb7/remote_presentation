@@ -2,7 +2,7 @@
 
 var canvas = document.getElementById('the-canvas');
 
-var roomURL = document.getElementById('url');
+var roomURL = document.getElementById('room-code');
 
 var pubsub = pubsubBuilder( {} );
 
