@@ -160,7 +160,7 @@ var webRTCModule = function( io , pubsub ) {
 		room = window.location.hash.substring(1);
 		if (!room) {
 			room = window.location.hash = randomToken();
-			roomURL.innerHTML = room;
+			roomURL.innerHTML = "#" + room;
 		}
 
 		// Connect to the signaling server
