@@ -2,12 +2,12 @@
 
 var webRTCModule = function( io , pubsub ) {
 
-	// var configuration = {
-	//	 'iceServers': [{
-	//		 'url': 'stun:stun.l.google.com:19302'
-	//	 }]
-	// };
-	// {'url':'stun:stun.services.mozilla.com'}
+	var configuration = {
+		 'iceServers': [{
+			 'url': 'stun:stun.l.google.com:19302'
+		 }]
+	};
+	//{'url':'stun:stun.services.mozilla.com'}
 
 	var configuration = null;
 
