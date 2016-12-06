@@ -2,8 +2,8 @@
 
 var dragAndDropModule = function ( document, window , pubsub, dropZone ) {
 
-	// Feature detection
-	var isAdvancedUpload = function() {
+		// Feature detection
+		var isAdvancedUpload = function() {
 
 		var div = document.createElement( 'div' );
 
@@ -60,11 +60,13 @@ var dragAndDropModule = function ( document, window , pubsub, dropZone ) {
 
 					dropitMsg.style.display = 'inline';
 
+					label.style.display = 'none';
+
 				});
 
 			});
 
-			[ 'dragleave', 'dragend', 'drop' ].forEach( function( event ) {
+			['drop' ].forEach( function( event ) {
 				
 				form.addEventListener( event, function() {
 				
@@ -74,6 +76,22 @@ var dragAndDropModule = function ( document, window , pubsub, dropZone ) {
 				
 				});
 			
+			});
+
+			[ 'dragleave', 'dragend' ].forEach( function( event ) {
+				
+				form.addEventListener( event, function() {
+				
+					form.classList.remove( 'is-dragover' );
+
+					boxInput.style.display = 'block';
+
+					label.style.display = 'inline-block';
+
+					dropitMsg.style.display = 'none';
+				
+				});
+				
 			});
 
 			form.addEventListener( 'drop', function( e ) {
