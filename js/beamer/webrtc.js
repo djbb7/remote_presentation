@@ -100,6 +100,7 @@ var webRTCModule = function( io , pubsub ) {
 
 		channel.onopen = function() {
 			console.log('CHANNEL opened!!!');
+			pubsub.publish( 'peerConnected' );
 		};
 
 		channel.onmessage = receiveDataFactory();
@@ -111,10 +112,12 @@ var webRTCModule = function( io , pubsub ) {
 		return function onmessage(event) {
 			
 			if (first) {
+				
 				var jsonData = JSON.parse( event.data );
 				console.log( 'Received instruction: '+jsonData.cmd );
 				switch( jsonData.cmd ) {
 					case 'receiveFile':
+						pubsub.publish('receivingFile');
 						total = jsonData.length;
 						buf = window.buf = new Array();
 						count = 0;
@@ -148,7 +151,7 @@ var webRTCModule = function( io , pubsub ) {
 	}
 
 	function randomToken() {
-		return Math.floor((1 + Math.random()) * 1e16).toString(16).substring(1);
+		return Math.floor((1 + Math.random()) * 1e16).toString(16).substring(1,6);
 	}
 
 	function logError(err) {
@@ -160,8 +163,10 @@ var webRTCModule = function( io , pubsub ) {
 		room = window.location.hash.substring(1);
 		if (!room) {
 			room = window.location.hash = randomToken();
-			roomURL.innerHTML = "#" + room;
 		}
+		roomURL.forEach( (e) => { 
+				e.innerHTML = "#" + room; 
+			});
 
 		// Connect to the signaling server
 		socket = io.connect();
@@ -183,6 +188,7 @@ var webRTCModule = function( io , pubsub ) {
 
 		socket.on('ready', function() {
 			console.log('Socket is ready');
+			pubsub.publish('socketReady');
 			createPeerConnection(isInitiator, configuration);
 		});
 

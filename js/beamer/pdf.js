@@ -18,32 +18,20 @@ var pdfModule = function( document, window, canvas, pubsub ) {
 
 				mPage = page;
 
-				var scale = 1.5;
+				var scale = 1.0;
 
-				var viewport = page.getViewport(scale);
+				mViewport = mPage.getViewport(scale);
 
-				mViewport = viewport;
-
-				// Prepare canvas using PDF page dimensions.
-				var context = canvas.getContext('2d');
-				canvas.height = viewport.height;
-				canvas.width = viewport.width;
-
-				// Render PDF page into canvas context.
-				var renderContext = {
-					canvasContext: context,
-					viewport: viewport
-				};
-				page.render(renderContext);
+				scaleCanvas();
 			});
 		});
 	}
 
 	function scaleCanvas() {
 
-		var max_width = window.innerWidth - 20; // subtract margin
+		var max_width = window.innerWidth; // subtract margin
 
-		var max_height = window.innerHeight - 20; 
+		var max_height = window.innerHeight; 
 
 		var scale = (mViewport.width / mViewport.height < max_width / max_height) ? max_height/mViewport.height : max_width/mViewport.width;
 

@@ -1,11 +1,11 @@
 
 var webRTCModule = function( io ) {
 	
-	// var configuration = {
-	//	 'iceServers': [{
-	//		 'url': 'stun:stun.l.google.com:19302'
-	//	 }]
-	// };
+	var configuration = {
+		'iceServers': [{
+			'url': 'stun:stun.l.google.com:19302'
+		}]
+	};
 	// {'url':'stun:stun.services.mozilla.com'}
 
 	var configuration = null;
@@ -22,12 +22,8 @@ var webRTCModule = function( io ) {
 
 	var socket;
 
-	function createRoom() {
-		room = window.location.hash = randomToken();
-	}
-
 	function setRoom( roomName ) {
-		room = window.location.hash = randomToken();
+		room = roomName;
 	}
 
 	/**
@@ -151,12 +147,6 @@ var webRTCModule = function( io ) {
 		};
 	}
 
-	function randomToken() {
-
-		return Math.floor((1 + Math.random()) * 1e16).toString(16).substring(1);
-
-	}
-
 	function logError( err ) {
 
 		console.log( err.toString() , err );
@@ -164,14 +154,15 @@ var webRTCModule = function( io ) {
 	}
 
 	(function init() {
-		// Connect to the signaling server
-		socket = io.connect();
-
+		
 		var room = window.location.hash.substring( 1 );
 		if (!room) {
 			console.log("Error. No room specified");
 			return;
 		}
+
+		// Connect to the signaling server
+		socket = io.connect();
 
 		socket.on( 'ipaddr', function( ipaddr ) {
 			console.log('Server IP address is: ' + ipaddr);
@@ -217,7 +208,6 @@ var webRTCModule = function( io ) {
 	})();
 
 	return {
-		createRoom: createRoom,
 		setRoom: setRoom,
 		sendPDF: sendPDF,
 		notifyNextPage: notifyNextPage,

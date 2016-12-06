@@ -35,7 +35,9 @@ var pdfModule = function( document, window, canvas ) {
 			viewport: mViewport
 		};
 
-		mPage.render(renderContext);
+		mPage.render(renderContext).then(function(){
+			pubsub.publish('pdfRendered');
+		});
 
 	}
 

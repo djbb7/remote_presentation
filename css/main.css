@@ -19,7 +19,8 @@ input[type=file]{
 }
 
 #the-canvas {
-padding: 10px;
+	padding: 10px;
+	touch-action: manipulation;
 }
 
 .box
@@ -178,8 +179,37 @@ background-color: #fff;
 	padding: 8px 16px;
 	margin: 40px auto 0;
 }
-	.box__button:hover,
-	.box__button:focus
-	{
-		background-color: #0f3c4b;
-	}
+.box__button:hover,
+.box__button:focus
+{
+	background-color: #0f3c4b;
+}
+
+#pencil {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	z-index: 1;
+	background-color: #aaa;
+	padding:5px;
+	border-radius: 5px;
+}
+#pencil.outset {
+	-webkit-box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.75);
+	-moz-box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.75);
+	box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.75);
+}
+#pencil.inset {
+	-webkit-box-shadow: inset 2px 2px 5px 1px rgba(0,0,0,0.75);
+	-moz-box-shadow: inset 2px 2px 5px 1px rgba(0,0,0,0.75);
+	box-shadow: inset 2px 2px 5px 1px rgba(0,0,0,0.75);
+}
+#pencil .pencil-bg { 
+	height: 50px;
+	width: 50px;
+	background-image: url(../img/pencil.png);
+	background-size: contain;
+}
+.invisible {
+	display: none;
+}
