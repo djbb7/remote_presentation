@@ -8,8 +8,8 @@ var socketIO = require('socket.io');
 var express = require('express');
 
 var options = {
-		key: fs.readFileSync('ssl/key.pem'),
-		cert: fs.readFileSync('ssl/cert.pem'),
+		key: fs.readFileSync(__dirname + '/ssl/key.pem'),
+		cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
 		passphrase: 'caca'
 };
 
