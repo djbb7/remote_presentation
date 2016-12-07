@@ -7,9 +7,12 @@
 var dropZone = document.getElementById( 'dropit' ),
 	canvas = document.getElementById('the-canvas'),
 	box_input = document.querySelectorAll('.box__input'),
+	pencil = document.getElementById('pencil'),
 	spinnerDiv = document.getElementById('spinner');
 
 var pubsub = pubsubBuilder( {} );
+
+var isDrawing = false;
 
 var spinner;
 
@@ -23,7 +26,9 @@ var pdfModule = pdfModule( document, window, canvas );
 
 var webRTCModule = webRTCModule( io );
 
-var drawModule = drawModule( canvas );
+var drawModule = drawModule( canvas , webRTCModule.sendDraw);
+
+var mc = new Hammer(canvas);
 
 //////////////////////////////////////
 // Subscribe to events
@@ -43,6 +48,8 @@ pubsub.subscribe('fileSelected', function( topic, file ) {
 
 pubsub.subscribe('pdfRendered', function() {
 	spinner.stop();
+
+	pencil.classList.remove('invisible');
 });
 
 pubsub.subscribe('pageChange', function( topic, direction ) {
@@ -68,14 +75,39 @@ document.onkeydown = function(e) {
 		}
 };
 
-var mc = new Hammer(canvas);
+
+//////////////////////////////////////
+// Draw logic
+/////////////////////
+
+pencil.addEventListener('click', function(){
+	
+	if(!isDrawing) {
+		pencil.classList.remove('outset');
+		pencil.classList.add('inset');
+		drawModule.activate();
+	} else {
+		pencil.classList.add('outset');
+		pencil.classList.remove('inset');
+		drawModule.deactivate();
+	}
+	isDrawing = !isDrawing;
+
+}, false);
+
+//////////////////////////////////////
+// Swipe page transitions
+/////////////////////
+
 
 mc.on("swiperight", function(ev) {
-	console.log(ev.type + " gesture detected.");
-	pubsub.publish( 'pageChange' , 'prev' );
+	if( !isDrawing ) {
+		pubsub.publish( 'pageChange' , 'prev' );
+	}
 });
 
 mc.on("swipeleft", function(ev) {
-	console.log(ev.type + " gesture detected.");
-	pubsub.publish( 'pageChange' , 'next' );
+	if( !isDrawing ) {
+		pubsub.publish( 'pageChange' , 'next' );
+	}
 });

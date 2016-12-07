@@ -74,6 +74,12 @@ var webRTCModule = function( io ) {
 
 	}
 
+	function sendDraw(type, x, y) {
+
+		dataChannel.send('{"cmd":"d","b":"'+type+','+x+','+y+'"}');
+
+	}
+
 	function signalingMessageCallback(message) {
 		if ( message.type === 'offer' ) {
 			console.log('Got offer. Sending answer to peer.');
@@ -211,6 +217,7 @@ var webRTCModule = function( io ) {
 		setRoom: setRoom,
 		sendPDF: sendPDF,
 		notifyNextPage: notifyNextPage,
-		notifyPrevPage: notifyPrevPage
+		notifyPrevPage: notifyPrevPage,
+		sendDraw: sendDraw
 	}
 };

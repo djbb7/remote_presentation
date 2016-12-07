@@ -1,6 +1,6 @@
 'use strict';
 
-var webRTCModule = function( io , pubsub ) {
+var webRTCModule = function( io, pubsub, draw ) {
 
 	var configuration = {
 		 'iceServers': [{
@@ -114,7 +114,7 @@ var webRTCModule = function( io , pubsub ) {
 			if (first) {
 				
 				var jsonData = JSON.parse( event.data );
-				console.log( 'Received instruction: '+jsonData.cmd );
+				//console.log( 'Received instruction: '+jsonData.cmd );
 				switch( jsonData.cmd ) {
 					case 'receiveFile':
 						pubsub.publish('receivingFile');
@@ -127,6 +127,10 @@ var webRTCModule = function( io , pubsub ) {
 						direction = jsonData.direction;
 						console.log( direction );
 						pubsub.publish( 'pageChange', direction );
+						break;
+					case 'd':
+						var parts = jsonData.b.split(',');
+						draw(parts[0] /* action */, parts[1] /* x */, parts[2] /* y */);
 						break;
 				}
 

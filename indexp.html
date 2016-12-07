@@ -6,15 +6,15 @@
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
-  <body>
+  <body class="no-touch-default">
     <div id="spinner">
     </div>
-    <div id="pencil" class="outset">
+    <div id="pencil" class="outset invisible">
       <div class="pencil-bg"></div>
     </div>
     <div class="box" method="post" action="" id="dropit">
-     <canvas id="the-canvas">
-      </canvas>
+     <canvas id="the-canvas" >
+    </canvas>
 
       <div class="box__input">
         <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />

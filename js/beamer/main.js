@@ -15,7 +15,9 @@ var pubsub = pubsubBuilder( {} );
 
 var pdfModule = pdfModule( document, window, canvas, pubsub );
 
-var webRTCModule = webRTCModule( io , pubsub );
+var drawModule = drawModule ( canvas );
+
+var webRTCModule = webRTCModule( io , pubsub , drawModule.draw );
 
 var spinner;
 

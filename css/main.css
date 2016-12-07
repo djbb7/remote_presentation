@@ -213,3 +213,6 @@ background-color: #fff;
 .invisible {
 	display: none;
 }
+.no-touch-default {
+	touch-action: none;
+}
