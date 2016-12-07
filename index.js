@@ -20,11 +20,11 @@ var app = express();
 
 app.get('/b', (req, res) => {
 	//fileServer.serve("indexb.html",res);
-	res.sendfile("indexb.html", {root: './'})
+	res.sendFile("indexb.html", {root: __dirname})
 });
 
 app.get('/', (req, res) => {
-	res.sendFile("indexp.html",{root: './'});
+	res.sendFile("indexp.html",{root: __dirname});
 });
 
 app.use('/b', express.static(__dirname));
