@@ -17,7 +17,7 @@ var fileServer = new(nodeStatic.Server)();
 // serving the socket.io client library
 var app = https.createServer(options, function(req, res) {
 	fileServer.serve(req, res);
-}).listen(8080);
+}).listen(process.env.PORT || 8080);
 
 var io = socketIO.listen(app);
 
