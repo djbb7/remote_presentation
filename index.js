@@ -5,6 +5,7 @@ var https = require('https');
 var fs = require('fs');
 var nodeStatic = require('node-static');
 var socketIO = require('socket.io');
+var express = require('express');
 
 var options = {
 		key: fs.readFileSync('ssl/key.pem'),
@@ -15,11 +16,26 @@ var options = {
 var fileServer = new(nodeStatic.Server)();
 
 // serving the socket.io client library
-var app = https.createServer(options, function(req, res) {
-	fileServer.serve(req, res);
-}).listen(process.env.PORT || 8080);
+var app = express();
 
-var io = socketIO.listen(app);
+app.get('/b', (req, res) => {
+	//fileServer.serve("indexb.html",res);
+	res.sendfile("indexb.html", {root: './'})
+});
+
+app.get('/', (req, res) => {
+	res.sendFile("indexp.html",{root: './'});
+});
+
+app.use('/b', express.static(__dirname));
+
+app.use(express.static(__dirname));
+
+app.server = https.createServer(options, app/*function(req, res) {
+	fileServer.serve(req, res);
+}*/).listen(process.env.PORT || 8080);
+
+var io = socketIO.listen(app.server);
 
 io.sockets.on('connection', function( socket ) {
 
