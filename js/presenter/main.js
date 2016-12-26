@@ -4,6 +4,8 @@
 // UI elements
 /////////////////////
 
+var startTime = Date.now();
+
 var dropZone = document.getElementById( 'dropit' ),
 	canvas = document.getElementById('the-canvas'),
 	box_input = document.querySelectorAll('.box__input'),
@@ -29,6 +31,8 @@ var webRTCModule = webRTCModule( io );
 var drawModule = drawModule( canvas , webRTCModule.sendDraw);
 
 var mc = new Hammer(canvas);
+
+var fileSelectedTime;
 
 //////////////////////////////////////
 // Subscribe to events

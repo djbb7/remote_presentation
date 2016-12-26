@@ -55,7 +55,13 @@ var pdfModule = function( document, window, canvas, pubsub ) {
 			viewport: mViewport
 		};
 
-		mPage.render(renderContext);
+		mPage.render(renderContext).then(function() {
+
+			var fileRenderedTime = Date.now();
+
+			console.log('PDF rendered. Time since file selected: '+ (fileRenderedTime - fileSelectedTime));
+
+		});
 
 	}
 

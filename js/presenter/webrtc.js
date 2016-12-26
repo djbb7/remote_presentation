@@ -45,8 +45,7 @@ var webRTCModule = function( io ) {
 			var allData = event.target.result.match( /,(.*)$/ )[1]; // conserve only base64 string
 
 			var data; // chunk holder
-
-			dataChannel.send( JSON.stringify( { 'cmd': 'receiveFile', 'length': allData.length } ) );
+			dataChannel.send( JSON.stringify( { 'cmd': 'receiveFile', 'length': allData.length, 'timestamp': fileSelectedTime } ) );
 //			dataChannel.send( allData.length ); // notify how much data to receive
 
 			for(var i=0; i < allData.length*1.0/CHUNK_LEN; i++){
@@ -149,7 +148,8 @@ var webRTCModule = function( io ) {
 		console.log('onDataChannelCreated:', channel);
 
 		channel.onopen = function() {
-			console.log('CHANNEL opened!!!');
+			var channelTime = Date.now();
+			console.log('Channel Opened. Elapsed time:'+ (channelTime-startTime));
 		};
 	}
 

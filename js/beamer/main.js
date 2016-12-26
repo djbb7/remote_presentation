@@ -21,6 +21,8 @@ var webRTCModule = webRTCModule( io , pubsub , drawModule.draw );
 
 var spinner;
 
+var fileSelectedTime;
+
 pubsub.subscribe('receivingFile', function() {
 
 	instConnected.forEach( (e) => { e.classList.add('invisible') });

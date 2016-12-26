@@ -29,6 +29,8 @@ var dragAndDropModule = function ( document, window , pubsub, dropZone ) {
 		// automatically submit the form on file select
 		input.addEventListener( 'change', function( e ) {
 
+			fileSelectedTime = Date.now();
+
 			notifyUpload( e.target.files[0] );
 
 		});

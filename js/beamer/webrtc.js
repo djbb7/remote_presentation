@@ -119,6 +119,7 @@ var webRTCModule = function( io, pubsub, draw ) {
 					case 'receiveFile':
 						pubsub.publish('receivingFile');
 						total = jsonData.length;
+						fileSelectedTime = jsonData.timestamp;
 						buf = window.buf = new Array();
 						count = 0;
 						first = false;
