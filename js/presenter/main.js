@@ -32,7 +32,7 @@ var drawModule = drawModule( canvas , webRTCModule.sendDraw);
 
 var mc = new Hammer(canvas);
 
-var fileSelectedTime;
+var fileSelectedTime, moveSlideTime;
 
 //////////////////////////////////////
 // Subscribe to events
@@ -57,6 +57,9 @@ pubsub.subscribe('pdfRendered', function() {
 });
 
 pubsub.subscribe('pageChange', function( topic, direction ) {
+	
+	moveSlideTime = Date.now();
+
 	switch( direction ){
 		case 'next':
 			pdfModule.nextPage();

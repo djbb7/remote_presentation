@@ -63,13 +63,13 @@ var webRTCModule = function( io ) {
 
 	function notifyNextPage() {
 
-		dataChannel.send( JSON.stringify( { 'cmd': 'moveSlide', 'direction': 'next' } ) );
+		dataChannel.send( JSON.stringify( { 'cmd': 'moveSlide', 'direction': 'next', 'timestamp': moveSlideTime } ) );
 
 	}
 
 	function notifyPrevPage() {
 
-		dataChannel.send( JSON.stringify( { 'cmd': 'moveSlide', 'direction': 'prev' } ) );
+		dataChannel.send( JSON.stringify( { 'cmd': 'moveSlide', 'direction': 'prev', 'timestamp': moveSlideTime } ) );
 
 	}
 

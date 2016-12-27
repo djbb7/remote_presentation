@@ -126,7 +126,7 @@ var webRTCModule = function( io, pubsub, draw ) {
 						break;
 					case 'moveSlide':
 						direction = jsonData.direction;
-						console.log( direction );
+						moveSlideTime = jsonData.timestamp;
 						pubsub.publish( 'pageChange', direction );
 						break;
 					case 'd':

@@ -21,7 +21,7 @@ var webRTCModule = webRTCModule( io , pubsub , drawModule.draw );
 
 var spinner;
 
-var fileSelectedTime;
+var fileSelectedTime, moveSlideTime;
 
 pubsub.subscribe('receivingFile', function() {
 

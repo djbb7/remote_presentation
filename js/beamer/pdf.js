@@ -87,7 +87,9 @@ var pdfModule = function( document, window, canvas, pubsub ) {
 		.getPage( pageNumber )
 		.then( function( page ) {
 
-			console.log('Got page')
+			var timeSync = Date.now() - moveSlideTime;
+			console.log('Page shown. Time elapsed: '+timeSync);
+
 			var scale = 1.0;
 
 			mPage = page;
@@ -101,14 +103,13 @@ var pdfModule = function( document, window, canvas, pubsub ) {
 	}
 
 	function nextPage () {
-		console.log('nextPage called. ?');
+
 		if( !mPDF ){
 		
 			return undefined;
 		
 		}
 
-		console.log('showPage: '+ (mPage.pageIndex + 2));
 		showPage ( mPage.pageIndex + 2 ); // index is 0-based, but pdf pages start from 1
 
 	}
